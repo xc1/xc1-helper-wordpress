@@ -1,0 +1,22 @@
+/* Diplays the custom graphics for the login screen*/
+#login form { background:transparent url('../images/admin/login.jpg') center top no-repeat; padding-top:100px; }
+
+/* Hides the default Wordpress Login content*/	
+#login form { -moz-border-radius: 11px; -khtml-border-radius: 0; -webkit-border-radius: 0; border-radius: 0px; border: none; -moz-box-shadow:none; -webkit-box-shadow: none; -khtml-box-shadow: none; box-shadow: none;}
+#login h1 {}
+
+div#wphead  { background: url('../images/admin/header-back.jpg') repeat-x #fff; height:110px; margin: 0px 0px -10px 0px;}
+div#wphead img { display: none; }
+div#wphead h1#site-heading {margin: 0px 0px -10px 0px; padding: 0px;}
+div#wphead h1#site-heading a { background: url('../images/admin/header.jpg') no-repeat top left; height: 110px; width: 450px; display: block; text-indent: -2000px; overflow: hidden;}
+
+/*Custom classes for the Wordpress Admin header*/		
+div#wpcontent { background: url('../images/admin/body.jpg') repeat-x #fff; }
+#wphead-info { color:#000;}
+
+div#footer {}
+
+div#favorite-actions,
+span.turbo-nag { display:none !important; }  
+
+div#login h1 { display:none; }
