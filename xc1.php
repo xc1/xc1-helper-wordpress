@@ -5,26 +5,27 @@
   Author: Anders Hassis, XC1 Group
   Version: 1
 */
-
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { 
-  die('You are not allowed to call this page directly.'); 
+  die(__('You are not allowed to call this page directly.')); 
 } 
-
+ 
 class XC1_Helper {  
   public $basename = '';
   public $folder = '';
+  public $pluginPath = '';
+  public $pluginURI = '';
   public $version = '1.0';
-  public $__defaultValues = array(
+  private $__defaultValues = array(
     'xc1_helper_installed'                => 1, 
-    'xc1_helper_maintenance'              => 1,
-    'xc1_helper_maintenance_default_503'  => '/templates/503.php',
+    'xc1_helper_maintenance'              => 0,
     'xc1_helper_static'                   => 0,
-    'xc1_helper_static_path'              => '/full/path/to/static/',
-    'xc1_helper_static_url'               => 'static/',
+    'xc1_helper_static_path'              => '/home/username/www/static/sitename.com/',
+    'xc1_helper_static_url'               => '/static/sitename.com/',
     'xc1_helper_custom_admin'             => 1,
     'xc1_helper_custom_favicon'           => 1,
     'xc1_helper_custom_gravatar'          => 1,
-    'xc1_helper_extend_bodyclass'         => 1
+    'xc1_helper_extend_bodyclass'         => 1,
+    'xc1_helper_custom_admin_footer'      => 'Producerad av <a href=\"http://www.xc1.se\">XC1 Group</a>. <br />Support: <a href=\"mailto:info@xc1.se\">info@xc1.se</a>'
   );
   
   public function __construct() {
@@ -41,13 +42,19 @@ class XC1_Helper {
     add_action('admin_init', array(&$this, 'admin_init'));
     add_action('admin_menu', array(&$this, 'admin_menu'));
     
+    // Fix for filtering input from custom footer text
+    add_filter('option_xc1_helper_custom_admin_footer', 'stripslashes');
+    
+		$this->pluginPath = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"", plugin_basename(__FILE__));
+		$this->pluginURI  = plugins_url( $this->folder); 
+		
     $this->actions();
     $this->filters();
     
-    #if ( (int)get_option('xc1_helper_maintenance') ) {
-    #  require_once('modules/maintenance-mode.php');
-    #  $maintenance = new XC1_Maintenance_Helper();
-    #}
+    if ( (int)get_option('xc1_helper_maintenance') ) {
+      require_once('modules/maintenance-mode.php');
+      $maintenance = new XC1_Maintenance_Helper();
+    }
   }
   
   public function admin_init() {
@@ -71,13 +78,9 @@ class XC1_Helper {
   }
   
   public function deactivate () { 
-    #foreach ($this->__defaultValues as $k => $v) {
-    #  delete_option($k);
-    #}
-  }
-  
-  public function enableMaintenanceModule() {
-    
+    foreach ($this->__defaultValues as $k => $v) {
+      delete_option($k);
+    }
   }
   
   public function route() {
@@ -88,122 +91,54 @@ class XC1_Helper {
     
     switch($action) {
       default:
-      case 'index': ?>
-					<div class="wrap">
-	          <div id="icon-options-general" class="icon32"></div>
-	            <h2>Edit XC1 Helper options</h2>
-	            <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>&amp;action=update">
-	            <table class="form-table">
-	                <tr>
-	                  <th scope="row">
-	                    <label for="map_form_name">Maintenance mode</label>
-	                  </th>
-	                  <td>
-											<input type="checkbox" name="xc1_helper_maintenance" checked="checked" />
-											<span class="description">Will look for 503.php in your theme directory</span>
-	                  </td>
-	                </tr>
-	                <tr>
-	                  <th scope="row">
-	                    <label for="map_form_group">Use static structure</label>
-	                  </th>
-	                  <td>
-											<input type="checkbox" name="xc1_helper_static" checked="checked" />
-	                    <span class="description">The group that this name belongs to</span>
-	                  </td>
-	                </tr>
-									<tr>
-	                  <th scope="row">
-	                    <label for="map_form_group">Path to static directory</label>
-	                  </th>
-	                  <td>
-											<input type="checkbox" name="xc1_helper_static_path" checked="checked" />
-	                    <span class="description">Full path to static directory</span>
-	                  </td>
-	                </tr>
-									<tr>
-	                  <th scope="row">
-	                    <label for="map_form_group">URI to static directory</label>
-	                  </th>
-	                  <td>
-											<input type="checkbox" name="xc1_helper_static_url" checked="checked" />
-	                    <span class="description">Full URI to static directory</span>
-	                  </td>
-	                </tr>
-									<tr>
-	                  <th scope="row">
-	                    <label for="map_form_group">Custom admin styling</label>
-	                  </th>
-	                  <td>
-											<input type="checkbox" name="xc1_helper_custom_admin" checked="checked" />
-	                    <span class="description">Will look for <em>stylesheets/admin.css</em></span>
-	                  </td>
-	                </tr>
-									<tr>
-	                  <th scope="row">
-	                    <label for="map_form_group">Custom favicons</label>
-	                  </th>
-	                  <td>
-											<input type="checkbox" name="xc1_helper_custom_favicon" checked="checked" />
-	                    <span class="description">Will look for <em>xc1-favicon.png, xc1-iphone.png</em></span>
-	                  </td>
-	                </tr>
-									<tr>
-	                  <th scope="row">
-	                    <label for="map_form_group">Custom gravatar</label>
-	                  </th>
-	                  <td>
-											<input type="checkbox" name="xc1_helper_custom_gravatar" checked="checked" />
-	                    <span class="description">Will look for <em>xc1-avatar.png, xc1-iphone.png</em></span>
-	                  </td>
-	                </tr>
-									<tr>
-	                  <th scope="row">
-	                    <label for="map_form_group">Extend bodyclass</label>
-	                  </th>
-	                  <td>
-											<input type="checkbox" name="xc1_helper_extend_bodyclass" checked="checked" />
-	                  </td>
-	                </tr>
-																
-              </table>
-            <p class="submit">
-              <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
-            </p>
-          </form>
-        </div>
-        <?php
+      case 'index': 
+					$this->render('index');
       break;
 
       case 'update':
-        echo "hej";
-      /*
-        $data = array(
-          'name' => $_POST['name'],
-          'blog_id' => $_POST['blog_id'],
-          'group' => $_POST['group'],
-          'is_default' => $_POST['is_default'],
-          'is_canon' => $_POST['is_canon']
-        );
-        $result = $wpdb->update(self::TABLE_NAME, $data, array('name' => $name), array('%s', '%d', '%d', '%d', '%d'), array('%s'));
-        */
-       # unset($_GET['name']);
-        #$_GET['action'] = 'index';
-        #return $this->route();
+        if ( !current_user_can('edit_users') ) {
+          die(__("Access denied"));
+        }
+        
+        foreach ($this->__defaultValues as $k => $v) {
+          if (array_key_exists($k, $_POST)) {
+            update_option($k, $_POST[$k]);
+          } else {
+            update_option($k, 0);
+          }
+        }
+        // Bad redirect, @TODO
+				?>
+				   <script type="text/javascript">
+				   <!--
+				      window.location= "?page=xc1.php";
+				   //-->
+				   </script>
+				<?php
       break;
     }
   }
   
   public function render($page) {
-    
-    
+    switch($action) {
+      default:
+      case 'index': 
+      	include('templates/settings.php');
+      break;
+    }
   }
   
   public function filters() {
     if ( (int)get_option('xc1_helper_custom_admin') ) {
       add_filter( 'admin_footer_text', array(&$this, 'custom_footer') ); 
-      add_filter( 'avatar_defaults', array(&$this, 'newgravatar') );
+    }
+    
+    if ( (int)get_option('xc1_helper_extend_bodyclass') ) {
       add_filter( 'body_class', array(&$this, 'browser_body_class') );
+    }
+    
+    if ( (int)get_option('xc1_helper_custom_gravatar') ) {
+      add_filter( 'avatar_defaults', array(&$this, 'newgravatar') );
     }
 
     // Remove updates from administration
@@ -235,18 +170,18 @@ class XC1_Helper {
      define('XC1_THEME_STATIC_PATH', get_option('xc1_helper_static_path') );
      define('XC1_THEME_STATIC_URI', WP_HOME . get_option('xc1_helper_static_url') );
    } else {
-     define('XC1_THEME_STATIC_PATH', WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"", plugin_basename(__FILE__)) . '/assets/');
-     define('XC1_THEME_STATIC_URI', plugins_url( $this->folder . '/assets/') ); 
+     define('XC1_THEME_STATIC_PATH', WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"", plugin_basename(__FILE__)) );
+     define('XC1_THEME_STATIC_URI', plugins_url( $this->folder) ); 
    }
 
-   define('XC1_THEME_CSS_PATH', XC1_THEME_STATIC_PATH . 'stylesheets' );
-   define('XC1_THEME_CSS_URI', XC1_THEME_STATIC_URI . 'stylesheets' );
+   define('XC1_THEME_CSS_PATH', XC1_THEME_STATIC_PATH . 'assets/stylesheets' );
+   define('XC1_THEME_CSS_URI', XC1_THEME_STATIC_URI . 'assets/stylesheets' );
 
-   define('XC1_THEME_JS_PATH', XC1_THEME_STATIC_PATH . 'javascripts' );
-   define('XC1_THEME_JS_URI', XC1_THEME_STATIC_URI . 'javascripts' );
+   define('XC1_THEME_JS_PATH', XC1_THEME_STATIC_PATH . 'assets/javascripts' );
+   define('XC1_THEME_JS_URI', XC1_THEME_STATIC_URI . 'assets/javascripts' );
 
-   define('XC1_THEME_IMAGES_PATH', XC1_THEME_STATIC_PATH . 'images' );
-   define('XC1_THEME_IMAGES_URI', XC1_THEME_STATIC_URI . 'images' );
+   define('XC1_THEME_IMAGES_PATH', XC1_THEME_STATIC_PATH . 'assets/images' );
+   define('XC1_THEME_IMAGES_URI', XC1_THEME_STATIC_URI . 'assets/images' );
 
    define('CHILD_THEME_THUMB_X', 96);
    define('CHILD_THEME_THUMB_Y', 96);
@@ -293,11 +228,12 @@ class XC1_Helper {
   }
 
   function favicon() {
-    if (file_exists ( XC1_THEME_IMAGES_PATH . '/xc1-iphone.png' ))
+    if (file_exists ( XC1_THEME_IMAGES_PATH . '/xc1-iphone.png' )) {
       $apple_icon = XC1_THEME_IMAGES_URI . '/xc1-iphone.png';
-    else
+    } else {
       $apple_icon = plugins_url( $this->folder . '/assets/images/xc1-iphone.png' );
-
+    }
+    
     if (file_exists ( XC1_THEME_IMAGES_PATH . '/xc1-favicon.png' ))
       $favicon_icon = XC1_THEME_IMAGES_URI . '/xc1-favicon.png';
     else
@@ -343,27 +279,19 @@ class XC1_Helper {
   }
 
   function custom_header() {
-    if (file_exists ( XC1_THEME_CSS_PATH . '/admin.css' ))
+    if (file_exists ( XC1_THEME_CSS_PATH . '/admin.css' )) {
       echo '<link rel="stylesheet" type="text/css" href="' . XC1_THEME_CSS_URI . '/admin.css" />'; // Child template admin css
-    else
+    } else {
       echo '<link rel="stylesheet" type="text/css" href="' . plugins_url( $this->folder . '/assets/stylesheets/admin.css' ).'" />'; // Template admin css
+    }
   }
 
   function custom_footer() {
-    if ( defined('CHILD_ADMIN_FOOTER') )
-      return sprintf ( CHILD_ADMIN_FOOTER );
-    else
-      return sprintf ( "Producerad av <a href=\"http://www.xc1.se\">XC1 Group</a>. <br />Support: <a href=\"mailto:info@xc1.se\">info@xc1.se</a>" ) ;
+      return get_option('xc1_helper_custom_admin_footer');
   }
   
   public static function _naturalizeBoolean($value) {
     return $value == '1' ? 'Yes' : 'No';
-  }
-}
-
-class XC1_Helper_Settings {
-  public static function get($option) {
-    return get_option($option);
   }
 }
 
