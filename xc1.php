@@ -1,10 +1,11 @@
 <?php
 /*
   Plugin Name: XC1 Helper
-  Description: Sail smoothly
+  Description: Sail smoothly, adds functionality to style administration, maintenance mode, directories for static content etc.
   Author: Anders Hassis, XC1 Group
-  Version: 1
+  Version: 1.0
 */
+
 if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { 
   die(__('You are not allowed to call this page directly.')); 
 } 
@@ -92,7 +93,11 @@ class XC1_Helper {
     switch($action) {
       default:
       case 'index': 
-					$this->render('index');
+    		if ( !current_user_can('edit_users') ) {
+          die(__("Access denied"));
+        }
+        
+				$this->render('index');
       break;
 
       case 'update':
@@ -107,9 +112,9 @@ class XC1_Helper {
             update_option($k, 0);
           }
         }
-        // Bad redirect, @TODO
+        // @TODO: Bad redirect
 				?>
-				   <script type="text/javascript">
+					<script type="text/javascript">
 				   <!--
 				      window.location= "?page=xc1.php";
 				   //-->
@@ -120,7 +125,7 @@ class XC1_Helper {
   }
   
   public function render($page) {
-    switch($action) {
+    switch($page) {
       default:
       case 'index': 
       	include('templates/settings.php');
@@ -182,10 +187,6 @@ class XC1_Helper {
 
    define('XC1_THEME_IMAGES_PATH', XC1_THEME_STATIC_PATH . 'assets/images' );
    define('XC1_THEME_IMAGES_URI', XC1_THEME_STATIC_URI . 'assets/images' );
-
-   define('CHILD_THEME_THUMB_X', 96);
-   define('CHILD_THEME_THUMB_Y', 96);
-   
  }
   
   /*
@@ -287,7 +288,7 @@ class XC1_Helper {
   }
 
   function custom_footer() {
-      return get_option('xc1_helper_custom_admin_footer');
+  	return get_option('xc1_helper_custom_admin_footer');
   }
   
   public static function _naturalizeBoolean($value) {
