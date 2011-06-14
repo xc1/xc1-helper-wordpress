@@ -89,28 +89,83 @@ class XC1_Helper {
     switch($action) {
       default:
       case 'index': ?>
-        <div class="wrap">
-          <div id="icon-options-general" class="icon32"></div>
-            <h2>Edit XC1 Helper options</h2>
-            <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>&amp;action=update">
-            <table class="form-table">
-                <tr>
-                  <th scope="row">
-                    <label for="map_form_name">Name (domain)</label>
-                  </th>
-                  <td>
-                    <input id="map_form_name" type="text" name="name" value="" size="50" />
-                  </td>
-                </tr>
-                <tr>
-                  <th scope="row">
-                    <label for="map_form_group">Group</label>
-                  </th>
-                  <td>
-                    <input id="map_form_group" type="text" name="group" value="" size="3" />
-                    <span class="description">The group that this name belongs to</span>
-                  </td>
-                </tr>
+					<div class="wrap">
+	          <div id="icon-options-general" class="icon32"></div>
+	            <h2>Edit XC1 Helper options</h2>
+	            <form method="post" action="<?php echo $_SERVER['REQUEST_URI']; ?>&amp;action=update">
+	            <table class="form-table">
+	                <tr>
+	                  <th scope="row">
+	                    <label for="map_form_name">Maintenance mode</label>
+	                  </th>
+	                  <td>
+											<input type="checkbox" name="xc1_helper_maintenance" checked="checked" />
+											<span class="description">Will look for 503.php in your theme directory</span>
+	                  </td>
+	                </tr>
+	                <tr>
+	                  <th scope="row">
+	                    <label for="map_form_group">Use static structure</label>
+	                  </th>
+	                  <td>
+											<input type="checkbox" name="xc1_helper_static" checked="checked" />
+	                    <span class="description">The group that this name belongs to</span>
+	                  </td>
+	                </tr>
+									<tr>
+	                  <th scope="row">
+	                    <label for="map_form_group">Path to static directory</label>
+	                  </th>
+	                  <td>
+											<input type="checkbox" name="xc1_helper_static_path" checked="checked" />
+	                    <span class="description">Full path to static directory</span>
+	                  </td>
+	                </tr>
+									<tr>
+	                  <th scope="row">
+	                    <label for="map_form_group">URI to static directory</label>
+	                  </th>
+	                  <td>
+											<input type="checkbox" name="xc1_helper_static_url" checked="checked" />
+	                    <span class="description">Full URI to static directory</span>
+	                  </td>
+	                </tr>
+									<tr>
+	                  <th scope="row">
+	                    <label for="map_form_group">Custom admin styling</label>
+	                  </th>
+	                  <td>
+											<input type="checkbox" name="xc1_helper_custom_admin" checked="checked" />
+	                    <span class="description">Will look for <em>stylesheets/admin.css</em></span>
+	                  </td>
+	                </tr>
+									<tr>
+	                  <th scope="row">
+	                    <label for="map_form_group">Custom favicons</label>
+	                  </th>
+	                  <td>
+											<input type="checkbox" name="xc1_helper_custom_favicon" checked="checked" />
+	                    <span class="description">Will look for <em>xc1-favicon.png, xc1-iphone.png</em></span>
+	                  </td>
+	                </tr>
+									<tr>
+	                  <th scope="row">
+	                    <label for="map_form_group">Custom gravatar</label>
+	                  </th>
+	                  <td>
+											<input type="checkbox" name="xc1_helper_custom_gravatar" checked="checked" />
+	                    <span class="description">Will look for <em>xc1-avatar.png, xc1-iphone.png</em></span>
+	                  </td>
+	                </tr>
+									<tr>
+	                  <th scope="row">
+	                    <label for="map_form_group">Extend bodyclass</label>
+	                  </th>
+	                  <td>
+											<input type="checkbox" name="xc1_helper_extend_bodyclass" checked="checked" />
+	                  </td>
+	                </tr>
+																
               </table>
             <p class="submit">
               <input type="submit" class="button-primary" value="<?php _e('Save Changes') ?>" />
@@ -239,9 +294,9 @@ class XC1_Helper {
 
   function favicon() {
     if (file_exists ( XC1_THEME_IMAGES_PATH . '/xc1-iphone.png' ))
-      $apple_icon = XC1_THEME_IMAGES_URI . '/xc1-avatar.jpg';
+      $apple_icon = XC1_THEME_IMAGES_URI . '/xc1-iphone.png';
     else
-      $apple_icon = plugins_url( $this->folder . '/assets/images/xc1-avatar.jpg' );
+      $apple_icon = plugins_url( $this->folder . '/assets/images/xc1-iphone.png' );
 
     if (file_exists ( XC1_THEME_IMAGES_PATH . '/xc1-favicon.png' ))
       $favicon_icon = XC1_THEME_IMAGES_URI . '/xc1-favicon.png';
