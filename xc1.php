@@ -171,9 +171,10 @@ class XC1_Helper {
    define('THEME_ROOT', get_theme_root() );
    define('THEME_PATH', get_bloginfo('template_directory') );
    
+
    if ( (int)get_option('xc1_helper_static') ) {
-     define('XC1_THEME_STATIC_PATH', get_option('xc1_helper_static_path') );
-     define('XC1_THEME_STATIC_URI', WP_HOME . get_option('xc1_helper_static_url') );
+     define('XC1_THEME_STATIC_PATH', ABSPATH . get_option('xc1_helper_static_path') );
+     define('XC1_THEME_STATIC_URI', get_option('xc1_helper_static_url') );
    } else {
      define('XC1_THEME_STATIC_PATH', WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"", plugin_basename(__FILE__)) );
      define('XC1_THEME_STATIC_URI', plugins_url( $this->folder) ); 
@@ -194,6 +195,7 @@ class XC1_Helper {
    */
   function browser_body_class($classes) {
     global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
+    
     if ($is_lynx)
       $classes [] = 'lynx';
     elseif ($is_gecko)
@@ -264,11 +266,10 @@ class XC1_Helper {
         comment_author_email ();
         $author_email = ob_get_clean ();
       }
+      
       $gravatar_url = 'http://www.gravatar.com/avatar/' . md5 ( strtolower ( $author_email ) ) . '?s=' . $size . '&amp;d=' . dp_settings ( 'gravatar_fallback' );
-      ?><img src="<?php
-      echo $gravatar_url;
-      ?>" <?php
-      echo $attributes?> /><?php
+      
+      printf("<img src=\"%s\" %s />", $gravatar_url, $attributes );
     }
   }
 

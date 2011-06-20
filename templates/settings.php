@@ -31,7 +31,7 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) {
                   </th>
                   <td>
 										<input type="text" name="xc1_helper_static_path" id="xc1_helper_static_path" value="<?php echo get_option('xc1_helper_static_path'); ?>" /><br />
-                    <span class="description"><?php _e('Full path to static directory. Example: <em>/home/username/www/static/sitename.com/</em>');?></span>
+                    <span class="description"><?php _e('Relative path to static directory. Example: <em>static/sitename.com/</em>');?></span>
                   </td>
                 </tr>
 								<tr class="xc1_static">
