@@ -94,5 +94,6 @@ a:hover,
 .ui-tabs-nav a:hover,
 .tablenav .tablenav-pages a:hover { color: #09F; border-color: #09F; }
 
-ul#adminmenu li a span { /*position: relative !important; float: right; margin-right: 3px;*/ margin-left: 5px !important; }
-ul#adminmenu li a span span { margin: 0px !important; }
+/*
+ul#adminmenu li a span { position: relative !important; float: right; margin-right: 3px; margin-left: 5px !important; }
+ul#adminmenu li a span span { margin: 0px !important; }*/
