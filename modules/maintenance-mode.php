@@ -51,8 +51,9 @@ class XC1_Maintenance_Helper {
 			add_filter('status_header', array(&$this, 'maintenance_header', 10, 4) );
 			$this->add_feed_actions();
 	
-			if (file_exists(THEME_PATH . '503.php'))
-				$file = THEME_PATH . '503.php';
+	//die(get_theme_root() . ' ' . get_bloginfo('template_directory')  . '/503.php');
+			if (file_exists(TEMPLATEPATH . '/503.php'))
+				$file = TEMPLATEPATH . '/503.php';
 			else 
 				$file = dirname(__FILE__) . '/../templates/503.php';
 

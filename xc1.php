@@ -52,6 +52,9 @@ class XC1_Helper {
     $this->actions();
     $this->filters();
     
+    define('THEME_ROOT', get_theme_root() );
+    define('THEME_PATH', get_bloginfo('template_directory') );
+    
     if ( (int)get_option('xc1_helper_maintenance') ) {
       require_once('modules/maintenance-mode.php');
       $maintenance = new XC1_Maintenance_Helper();
@@ -167,9 +170,6 @@ class XC1_Helper {
    
    // Remove generator from header
    remove_action( 'wp_head', 'wp_generator' );
-   
-   define('THEME_ROOT', get_theme_root() );
-   define('THEME_PATH', get_bloginfo('template_directory') );
    
 
    if ( (int)get_option('xc1_helper_static') ) {
