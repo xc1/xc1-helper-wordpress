@@ -158,9 +158,10 @@ class XC1_Helper {
   
  private function actions() {
    if ( (int)get_option('xc1_helper_custom_favicon') ) {
-     add_action( 'wp_head', array(&$this, 'favicon') );
-     add_action( 'rss_head', array(&$this, 'add_feed_logo') );
-     add_action( 'rss2_head', array(&$this, 'add_feed_logo') );
+		add_action( 'wp_head', array(&$this, 'favicon') );
+		add_action( 'admin_head', array(&$this, 'favicon') );
+     	add_action( 'rss_head', array(&$this, 'add_feed_logo') );
+     	add_action( 'rss2_head', array(&$this, 'add_feed_logo') );
    }
    
    if ( (int)get_option('xc1_helper_custom_admin') ) {
