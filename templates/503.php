@@ -38,15 +38,15 @@
 	<!-- Info about why the website might be down -->
 	<div class="column grid-6">
 		<h2>The website is temporarily down</h2>
-		<p>This could be due to a scheduled update or other planned maintenance. The website should be up and running within a near future. Please check back again later.</p>
+		<p>The website should be up and running within a near future. Please check back again later.</p>
 		<h2>Why do i see this page?</h2>
-		<p>This is the offlinepage of <a href="http://xc1.se">XC1 Group</a> wich is owned and managed by <a href="http://framert.se">Framert AB</a> and <a href="http://parhaggstrom.com">Pär Häggström Photograhy</a>. We create webbpages and opportunities for our clients.</p>
+		<p>This webpage is maintained by <a href="http://xc1.se">XC1 Group</a>, which is owned and managed by <a href="http://framert.se">Framert AB</a> and <a href="http://parhaggstrom.com">Pär Häggström Photograhy</a>. We create webpages and opportunities for our clients.</p>
 	</div>
 	<div class="column grid-6">
 		<h2>Webbplatsen är tillfälligt nere</h2>
-		<p>Detta kan bero på en planerad uppdatering av sidan eller övrigt underhåll. Webbplatsen bör därför vara online igen inom en snar framtid. Återkom därför gärna vid ett senaste tillfälle.</p>
+		<p>Detta beror på en planerad uppdatering av sidan. Webbplatsen bör därför vara uppe igen inom kort. Återkom därför gärna vid ett senare tillfälle.</p>
 		<h2>Varför möts jag av denna sida?</h2>
-		<p>Denna offlinesida tillhör <a href="http://xc1.se">XC1 Group</a> som ägs och drivs av <a href="http://framert.se">Framert AB</a> och <a href="http://parhaggstrom.com">Pär Häggström Photography</a>. Vi skapar webbplatser och möjligheter för våra kunder.</p>
+		<p>Denna webbplats driftas av <a href="http://xc1.se">XC1 Group</a>, som ägs och drivs av <a href="http://framert.se">Framert AB</a> och <a href="http://parhaggstrom.com">Pär Häggström Photography</a>. Vi skapar webbplatser och möjligheter för våra kunder.</p>
 	</div>
 	
 	</div>
