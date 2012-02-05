@@ -142,7 +142,7 @@ class XC1_Helper {
     }
     
     if ( (int)get_option('xc1_helper_extend_bodyclass') ) {
-      add_filter( 'body_class', array(&$this, 'browser_body_class') );
+      add_filter( 'body_class', array(&$this, 'modify_body_class') );
     }
     
     if ( (int)get_option('xc1_helper_custom_gravatar') ) {
@@ -192,11 +192,12 @@ class XC1_Helper {
  }
   
   /*
-   * Modify browser body class
+   * Modify body class
    */
-  function browser_body_class($classes) {
+  function modify_body_class($classes) {
     global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
     
+	// Browser
     if ($is_lynx)
       $classes [] = 'lynx';
     elseif ($is_gecko)
@@ -216,6 +217,10 @@ class XC1_Helper {
 
     if ($is_iphone)
       $classes [] = 'iphone';
+
+	// Page slug
+	$post_data = get_post($post->ID, ARRAY_A);
+	$classes [] = 'page-' . $post_data['post_name'];
 
     return $classes;
   }
