@@ -195,7 +195,7 @@ class XC1_Helper {
    * Modify body class
    */
   function modify_body_class($classes) {
-    global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone;
+    global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone, $post;
     
 	// Browser
     if ($is_lynx)
