@@ -46,9 +46,9 @@ class XC1_Helper {
     // Fix for filtering input from custom footer text
     add_filter('option_xc1_helper_custom_admin_footer', 'stripslashes');
     
-		$this->pluginPath = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"", plugin_basename(__FILE__));
-		$this->pluginURI  = plugins_url( $this->folder); 
-		
+    $this->pluginPath = WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"", plugin_basename(__FILE__));
+    $this->pluginURI  = plugins_url( $this->folder); 
+    
     $this->actions();
     $this->filters();
     
@@ -96,11 +96,11 @@ class XC1_Helper {
     switch($action) {
       default:
       case 'index': 
-    		if ( !current_user_can('edit_users') ) {
+        if ( !current_user_can('edit_users') ) {
           die(__("Access denied"));
         }
         
-				$this->render('index');
+        $this->render('index');
       break;
 
       case 'update':
@@ -116,13 +116,13 @@ class XC1_Helper {
           }
         }
         // @TODO: Bad redirect
-				?>
-					<script type="text/javascript">
-				   <!--
-				      window.location= "?page=xc1.php";
-				   //-->
-				   </script>
-				<?php
+        ?>
+          <script type="text/javascript">
+           <!--
+              window.location= "?page=xc1.php";
+           //-->
+           </script>
+        <?php
       break;
     }
   }
@@ -131,7 +131,7 @@ class XC1_Helper {
     switch($page) {
       default:
       case 'index': 
-      	include('templates/settings.php');
+        include('templates/settings.php');
       break;
     }
   }
@@ -158,10 +158,10 @@ class XC1_Helper {
   
  private function actions() {
    if ( (int)get_option('xc1_helper_custom_favicon') ) {
-		add_action( 'wp_head', array(&$this, 'favicon') );
-		add_action( 'admin_head', array(&$this, 'favicon') );
-     	add_action( 'rss_head', array(&$this, 'add_feed_logo') );
-     	add_action( 'rss2_head', array(&$this, 'add_feed_logo') );
+    add_action( 'wp_head', array(&$this, 'favicon') );
+    add_action( 'admin_head', array(&$this, 'favicon') );
+      add_action( 'rss_head', array(&$this, 'add_feed_logo') );
+      add_action( 'rss2_head', array(&$this, 'add_feed_logo') );
    }
    
    if ( (int)get_option('xc1_helper_custom_admin') ) {
@@ -174,11 +174,19 @@ class XC1_Helper {
    
 
    if ( (int)get_option('xc1_helper_static') ) {
-     define('XC1_THEME_STATIC_PATH', ABSPATH . get_option('xc1_helper_static_path') );
-     define('XC1_THEME_STATIC_URI', get_option('xc1_helper_static_url') );
+    define('XC1_THEME_STATIC_PATH', ABSPATH . get_option('xc1_helper_static_path') );
+    $urlStr = get_option('xc1_helper_static_url');
+    $parsed = parse_url($urlStr);
+    if (empty($parsed['scheme'])) {
+      $urlStr = sprintf("http://%s%s", DOMAIN, $urlStr);
+    }
+
+    define('XC1_THEME_STATIC_URI', $urlStr);
    } else {
-     define('XC1_THEME_STATIC_PATH', WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"", plugin_basename(__FILE__)) );
-     define('XC1_THEME_STATIC_URI', plugins_url( $this->folder) ); 
+    define('XC1_THEME_STATIC_PATH', WP_PLUGIN_URL.'/'.str_replace(basename( __FILE__),"", plugin_basename(__FILE__)) );
+    define('XC1_THEME_STATIC_URI', plugins_url( $this->folder) ); 
+
+    
    }
 
    define('XC1_THEME_CSS_PATH', XC1_THEME_STATIC_PATH . 'assets/stylesheets' );
@@ -197,7 +205,7 @@ class XC1_Helper {
   function modify_body_class($classes) {
     global $is_lynx, $is_gecko, $is_IE, $is_opera, $is_NS4, $is_safari, $is_chrome, $is_iphone, $post;
     
-	// Browser
+  // Browser
     if ($is_lynx)
       $classes [] = 'lynx';
     elseif ($is_gecko)
@@ -218,10 +226,11 @@ class XC1_Helper {
     if ($is_iphone)
       $classes [] = 'iphone';
 
-	// Page slug
-	$post_data = get_post($post->ID, ARRAY_A);
-	$classes [] = 'page-' . $post_data['post_name'];
-
+  // Page slug
+  if($post) {
+    $post_data = get_post($post->ID, ARRAY_A);
+    $classes [] = 'page-' . $post_data['post_name'];
+  }
     return $classes;
   }
 
@@ -232,7 +241,6 @@ class XC1_Helper {
       $myavatar = plugins_url( $this->folder . '/assets/images/xc1-avatar.jpg' );
 
     $avatar_defaults [$myavatar] = "XC1 avatar";
-
     return $avatar_defaults;
   }
 
@@ -295,7 +303,7 @@ class XC1_Helper {
   }
 
   function custom_footer() {
-  	return get_option('xc1_helper_custom_admin_footer');
+    return get_option('xc1_helper_custom_admin_footer');
   }
   
   public static function _naturalizeBoolean($value) {
