@@ -1,0 +1,13 @@
+{
+  "name": "xc1/xc1-helper-wordpress",
+  "description": "Enables stuff for XC1",
+  "keywords": ["wordpress", "plugin", "statistics"],
+  "license": "proprietary",
+  "type": "wordpress-plugin",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:xc1/xc1-helper-wordpress.git"
+    }
+  ]
+}
