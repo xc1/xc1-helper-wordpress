@@ -15,7 +15,7 @@ body div#wpwrap div#wphead h1#site-heading { margin: 0px 0px -10px 0px; padding:
 body div#wpwrap div#wphead h1#site-heading a { background: url('../images/admin/header.jpg') no-repeat top left; height: 110px; width: 550px; display: block; text-indent: -2000px; overflow: hidden; position: absolute; }
 body div#wpwrap #wphead-info { color:#000;}
 
-body div#wpwrap div#wpcontent { margin: 0px; padding: 130px 0px 0px 0px; }
+body div#wpwrap div#wpcontent { margin: 0px; padding: 100px 20px 0px 20px; }
 body div#wpwrap div#wpbody { margin-left: 160px; }
 
 body div#wpwrap div#footer { margin: 0px; box-shadow: inset 0 4px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow: inset 0 4px 5px rgba(0, 0, 0, 0.5); -webkit-box-shadow: inset 0 4px 5px rgba(0, 0, 0, 0.5); background: #333; color: #999; padding: 10px; }
@@ -32,12 +32,13 @@ body.folded div#wpwrap div#adminmenuwrap ul#adminmenu { padding: 0px 0px 0px 0px
 
 body.folded div#wpwrap div#wpcontent { margin: 0px; }
 body.folded div#wpwrap div#wpcontent div#wpbody { margin-left: 47px; }
+body.folded div#wpwrap div#wpbody { margin-left: 50px; }
 
 /* Admin-bar */
 body.admin-bar div#wpwrap div#wphead { background-position: 0px 28px; }
 body.admin-bar div#wpwrap div#wphead h1#site-heading { top: 28px; }
 body.admin-bar div#wpwrap div#wphead h1#site-heading a { background-position: 0px 0px; }
-body.admin-bar div#wpwrap div#adminmenuwrap { margin: 138px 0px 70px 0px; }
+body.admin-bar div#wpwrap div#adminmenuwrap { margin: 110px 0px 70px 0px; }
 body.admin-bar div#wpwrap div#adminmenuwrap ul#adminmenu { padding: 0px 0px 0px 0px; }
 
 /* Admin-bar & Folded menu */
